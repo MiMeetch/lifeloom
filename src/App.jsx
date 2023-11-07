@@ -1,15 +1,26 @@
-import './App.css';
-import Form from './components/common/Form';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import "./App.css";
+import Form from "./components/common/Form";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { app } from './firebase-config';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+
+const navigate = useNavigate();
 
 function App() {
-  const [Email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleAction = (id) => {
-    console.log(id);
-  };
+    const authentication = getAuth();
+    if (id === 2) {
+      createUserWithEmailAndPassword(authentication, email, password)
+      .then((res) => {
+        sessionStorage.setItem('Auth Token', res._tokenResponse.refreshToken)
+        navigate('/home')
+      })
+    }
+  }
 
   return (
     <Router>
