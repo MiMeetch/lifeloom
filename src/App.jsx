@@ -2,10 +2,6 @@ import './App.css';
 import Form from './components/common/Form';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
-import BodyDataForm from './components/BodyDataForm';
-import SignUp from './components/SignUpForm';
-import { Login } from '@mui/icons-material';
-import SignIn from './pages/SignIn';
 
 function App() {
   const [Email, setEmail] = useState('');
