@@ -1,26 +1,34 @@
 import "./App.css";
-import Form from "./components/common/Form";
-import HomeTemp from "./pages/HomeTemp"
+import LoginForm from "./components/LogInForm";
+import SignUpForm from "./components/SignUpForm";
+import BodyDataForm from "./components/BodyDataForm";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import React, { useEffect } from 'react'
 import { useState } from "react";
 import './firebase-config';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
-
+import { auth } from './firebase-config'
 
 
 function App() {
 
   useEffect(() => {
-    let authToken = sessionStorage.getItem('Auth Token')
+    console.log(auth.currentUser)
+  },[])
 
-    if (authToken) {
-      navigate('/home')
-    }
-  }, [])
+  // useEffect(() => {
+  //   let authToken = sessionStorage.getItem('Auth Token')
+
+  //   if (authToken) {
+  //     navigate('/')
+  //   }
+  // }, [])
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
+
 
   const navigate = useNavigate();
 
@@ -29,14 +37,14 @@ function App() {
     if (id === 2) {
       createUserWithEmailAndPassword(authentication, email, password)
       .then((res) => {
-        navigate('/home')
+        navigate('/register')
         sessionStorage.setItem('Auth Token', res._tokenResponse.refreshToken)
       })
     }
     if (id === 1) {
       signInWithEmailAndPassword(authentication, email, password)
         .then((response) => {
-          navigate('/home')
+          navigate('/register')
           sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
         })
     }
@@ -51,7 +59,7 @@ function App() {
             <Route
               path="/login"
               element={
-                <Form
+                <LoginForm
                   title="Login"
                   setEmail={setEmail}
                   setPassword={setPassword}
@@ -60,9 +68,9 @@ function App() {
               }
             />
             <Route
-              path="/register"
+              path="/signup"
               element={
-                <Form
+                <SignUpForm
                   title="Register"
                   setEmail={setEmail}
                   setPassword={setPassword}
@@ -71,9 +79,9 @@ function App() {
               }
             />
             <Route
-            path='/home'
+            path='/register'
             element={
-              <HomeTemp />}
+              <BodyDataForm />}
             />
           </Routes>
           
