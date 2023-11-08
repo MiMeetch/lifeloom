@@ -1,6 +1,8 @@
 import "./App.css";
 import Form from "./components/common/Form";
+import HomeTemp from "./pages/HomeTemp"
 import { Routes, Route, useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react'
 import { useState } from "react";
 import './firebase-config';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
@@ -8,6 +10,15 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } f
 
 
 function App() {
+
+  useEffect(() => {
+    let authToken = sessionStorage.getItem('Auth Token')
+
+    if (authToken) {
+      navigate('/home')
+    }
+  }, [])
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -18,11 +29,19 @@ function App() {
     if (id === 2) {
       createUserWithEmailAndPassword(authentication, email, password)
       .then((res) => {
-        sessionStorage.setItem('Auth Token', res._tokenResponse.refreshToken)
         navigate('/home')
+        sessionStorage.setItem('Auth Token', res._tokenResponse.refreshToken)
       })
     }
+    if (id === 1) {
+      signInWithEmailAndPassword(authentication, email, password)
+        .then((response) => {
+          navigate('/home')
+          sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken)
+        })
+    }
   }
+
 
   return (
     
@@ -51,7 +70,13 @@ function App() {
                 />
               }
             />
+            <Route
+            path='/home'
+            element={
+              <HomeTemp />}
+            />
           </Routes>
+          
         </>
       </div>
   
