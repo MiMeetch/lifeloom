@@ -1,15 +1,17 @@
 import "./App.css";
 import Form from "./components/common/Form";
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { app } from './firebase-config';
+import './firebase-config';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 
-const navigate = useNavigate();
+
 
 function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleAction = (id) => {
     const authentication = getAuth();
@@ -23,7 +25,7 @@ function App() {
   }
 
   return (
-    <Router>
+    
       <div className="App">
         <>
           <Routes>
@@ -52,7 +54,7 @@ function App() {
           </Routes>
         </>
       </div>
-    </Router>
+  
   );
 }
 
