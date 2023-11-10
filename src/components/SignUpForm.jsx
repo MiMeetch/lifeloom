@@ -1,13 +1,18 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const defaultTheme = createTheme();
 
@@ -16,9 +21,15 @@ export default function SignUp() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: data.get("email"),
+      password: data.get("password"),
     });
+  };
+
+  const [activityLevel, setactivityLevel] = React.useState('');
+
+  const handleChange = (event) => {
+    setactivityLevel(event.target.value);
   };
 
   return (
@@ -28,9 +39,9 @@ export default function SignUp() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography component="h1" variant="h5">
@@ -63,6 +74,55 @@ export default function SignUp() {
                   name="lastName"
                   autoComplete="family-name"
                 />
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="off"
+                    name="Weight"
+                    required
+                    fullWidth
+                    id="weight"
+                    label="Weight"
+                    autoFocus
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">lbs</InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    autoComplete="off"
+                    name="Height"
+                    required
+                    fullWidth
+                    id="height"
+                    label="height"
+                    autoFocus
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="start">in</InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl fullWidth>
+                    <InputLabel id="activityLevel">Activity Level</InputLabel>
+                    <Select
+                      labelId="activityLevel"
+                      id="activityLevel"
+                      value={activityLevel}
+                      label="activityLevel"
+                      onChange={handleChange}
+                    >
+                      <MenuItem value={1.2}>Little or None</MenuItem>
+                      <MenuItem value={1.375}>Light Exercise</MenuItem>
+                      <MenuItem value={1.55}>Moderate Exercise</MenuItem>
+                      <MenuItem value={1.725}>Heavy Exercise</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
               </Grid>
               <Grid item xs={12}>
                 <TextField
